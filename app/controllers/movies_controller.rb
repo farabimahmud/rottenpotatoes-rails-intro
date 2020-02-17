@@ -12,7 +12,19 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.order(params['sort']).all
-    @ratings_all = ["G", "PG", "PG-13", "NC-17", "R"]
+    @ratings_all = Movie.allratings
+    @sort_by = params['sort']
+    @selected_ratings = params['ratings'] || session['ratings'] || {}    
+    if params['ratings'] == {}
+      @selected_ratings = Hash[@ratings_all.map {|rating| [rating, rating]}]
+    end
+    if params['sort'] != session['sort'] or params['ratings'] != session['ratings']
+      session['sort'] = @sort_by
+      session['ratings'] = @selected_ratings 
+    end
+    # puts YAML::dump(params) + "params"
+    # puts YAML::dump(session) + "session"
+    @movies = Movie.where(:rating => @selected_ratings.keys).order(@sort_by)
   end
 
   def new
