@@ -1,0 +1,2 @@
+Heroku URL: http://quiet-wildwood-06680.herokuapp.com/
+GitHub URL: https://github.com/farabimahmud/rottenpotatoes-rails-intro/
